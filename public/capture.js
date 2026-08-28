@@ -57,10 +57,16 @@ function pngByteLength(dataUrl) {
   return Math.floor((b64.length * 3) / 4);
 }
 
+function nextFrame() {
+  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
+}
+
 export async function captureArtboardPng(artboard, { scale = 2 } = {}) {
   if (document.fonts?.ready) {
     await document.fonts.ready;
   }
+  await nextFrame();
+  await nextFrame();
 
   const width = Math.round(artboard.clientWidth);
   const height = Math.round(artboard.clientHeight);

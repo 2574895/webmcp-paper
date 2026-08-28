@@ -252,11 +252,14 @@ button {
   gap: 22px;
   overflow: hidden;
   transition:
-    width 180ms ease,
-    height 180ms ease,
     padding 180ms ease,
     background 180ms ease,
     color 180ms ease;
+}
+
+.artboard[data-format="portrait"] {
+  --paper-w: 460px;
+  --paper-h: 650px;
 }
 
 .artboard[data-format="square"] {
@@ -321,7 +324,7 @@ button {
   margin: 0;
   width: 100%;
   white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   min-height: 1.2em;
 }
 
@@ -372,15 +375,23 @@ button {
 
   .panel {
     border-right: 0;
-    border-bottom: 1px solid var(--rule);
+    border-top: 1px solid var(--rule);
   }
 
   .studio {
-    min-height: 80dvh;
-    padding: 20px 12px 40px;
+    order: -1;
+    min-height: 72dvh;
+    padding: 16px 12px 28px;
   }
 
   .artboard {
+    width: min(var(--paper-w), calc(100vw - 24px));
+    height: auto;
+    aspect-ratio: 460 / 650;
     transform-origin: top center;
+  }
+
+  .artboard[data-format="square"] {
+    aspect-ratio: 1 / 1;
   }
 }

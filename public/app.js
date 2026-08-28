@@ -200,6 +200,9 @@ export const paper = {
 window.Paper = paper;
 
 function bindForm() {
+  els.form.addEventListener("submit", (event) => {
+    event.preventDefault();
+  });
   els.fieldTitle.addEventListener("input", () => {
     paper.setText({ title: els.fieldTitle.value });
   });
