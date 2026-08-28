@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>지필 Paper — WebMCP 캔버스</title>
+    <meta
+      name="description"
+      content="한 장의 종이. 사람이 쓰고, 에이전트도 같은 화면에서 같은 액션을 실행합니다."
+    />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=Noto+Serif+KR:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="panel" aria-label="편집 패널">
+        <header class="brand">
+          <p class="brand-mark">지필</p>
+          <h1>Paper</h1>
+          <p class="brand-lede">
+            한 장의 종이. 사람이 쓰는 화면과 에이전트가 부르는 도구가 같습니다.
+          </p>
+          <p id="webmcp-status" class="status-chip" data-state="unknown">
+            WebMCP 확인 중
+          </p>
+        </header>
+
+        <form id="editor" class="editor">
+          <fieldset>
+            <legend>글</legend>
+            <label>
+              제목
+              <input
+                id="field-title"
+                name="title"
+                type="text"
+                maxlength="120"
+                autocomplete="off"
+              />
+            </label>
+            <label>
+              본문
+              <textarea id="field-body" name="body" rows="7" maxlength="2000"></textarea>
+            </label>
+            <label>
+              캡션
+              <input
+                id="field-caption"
+                name="caption"
+                type="text"
+                maxlength="160"
+                autocomplete="off"
+              />
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>판형</legend>
+            <div class="segmented" role="group" aria-label="용지 비율">
+              <label>
+                <input type="radio" name="format" value="portrait" checked />
+                세로 포스터
+              </label>
+              <label>
+                <input type="radio" name="format" value="square" />
+                정사각
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>정렬</legend>
+            <div class="segmented" role="group" aria-label="텍스트 정렬">
+              <label>
+                <input type="radio" name="align" value="left" checked />
+                왼쪽
+              </label>
+              <label>
+                <input type="radio" name="align" value="center" />
+                가운데
+              </label>
+              <label>
+                <input type="radio" name="align" value="right" />
+                오른쪽
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="sliders">
+            <legend>여백 · 크기</legend>
+            <label>
+              여백
+              <input id="field-margin" name="margin" type="range" min="24" max="96" step="2" />
+              <span id="margin-readout" class="readout"></span>
+            </label>
+            <label>
+              제목 크기
+              <input id="field-titleSize" name="titleSize" type="range" min="28" max="84" step="1" />
+              <span id="titleSize-readout" class="readout"></span>
+            </label>
+            <label>
+              본문 크기
+              <input id="field-bodySize" name="bodySize" type="range" min="13" max="28" step="1" />
+              <span id="bodySize-readout" class="readout"></span>
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>글꼴 · 종이</legend>
+            <div class="segmented" role="group" aria-label="글꼴">
+              <label>
+                <input type="radio" name="font" value="serif" checked />
+                명조
+              </label>
+              <label>
+                <input type="radio" name="font" value="sans" />
+                고딕
+              </label>
+            </div>
+            <div class="segmented" role="group" aria-label="종이 톤">
+              <label>
+                <input type="radio" name="paper" value="ivory" checked />
+                아이보리
+              </label>
+              <label>
+                <input type="radio" name="paper" value="white" />
+                백지
+              </label>
+              <label>
+                <input type="radio" name="paper" value="ink" />
+                먹색
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="actions">
+            <button id="export-button" type="button" class="primary">
+              PNG로 저장
+            </button>
+            <button id="reset-button" type="button" class="ghost">처음 글로</button>
+          </div>
+        </form>
+
+        <p id="last-action" class="last-action" aria-live="polite">
+          종이에 바로 쓰거나, 왼쪽 칸에서 고칠 수 있습니다.
+        </p>
+      </aside>
+
+      <main class="studio" aria-label="아트보드">
+        <article
+          id="artboard"
+          class="artboard"
+          data-align="left"
+          data-font="serif"
+          data-paper="ivory"
+          data-format="portrait"
+        >
+          <div class="paper-grain" aria-hidden="true"></div>
+          <h2
+            id="paper-title"
+            class="paper-title"
+            contenteditable="true"
+            spellcheck="false"
+            data-placeholder="제목"
+            role="textbox"
+            aria-label="제목"
+          ></h2>
+          <p
+            id="paper-body"
+            class="paper-body"
+            contenteditable="true"
+            spellcheck="false"
+            data-placeholder="본문"
+            role="textbox"
+            aria-multiline="true"
+            aria-label="본문"
+          ></p>
+          <p
+            id="paper-caption"
+            class="paper-caption"
+            contenteditable="true"
+            spellcheck="false"
+            data-placeholder="캡션"
+            role="textbox"
+            aria-label="캡션"
+          ></p>
+        </article>
+      </main>
+    </div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
