@@ -67,12 +67,12 @@ WebMCP는 Secure Context(HTTPS 또는 localhost)가 필요합니다.
 설정 파일: 루트 `wrangler.toml` (`pages_build_output_dir = "./public"`).
 
 ```bash
-npx wrangler pages deploy
+npx wrangler pages deploy public --project-name webmcp-paper
 ```
 
-**라이브 URL:** TODO — 배포는 Cloudflare 계정 연결 후.
+**라이브 URL:** https://webmcp-paper.pages.dev/
 
-이 환경에는 Cloudflare API 토큰이 없어 여기서 게시하지 않았습니다. 계정 연결 뒤 위 명령으로 Pages에 올리면 README의 TODO를 실제 `*.pages.dev` 주소로 바꾸면 됩니다.
+Cloudflare Pages의 `webmcp-paper` 프로젝트에 Direct Upload 방식으로 배포합니다. `dhyun.tech` DNS와 다른 Pages 프로젝트는 변경하지 않습니다.
 
 ## 라이선스
 

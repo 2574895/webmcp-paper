@@ -28,7 +28,9 @@ export async function registerPaperTools(modelContext, paper, { signal } = {}) {
             description: "Small caption at the bottom of the paper.",
           },
         },
+        additionalProperties: false,
       },
+      annotations: { readOnlyHint: false, untrustedContentHint: false },
       execute: async (input = {}) => {
         const result = paper.setText(input, { source: "agent" });
         return jsonResult(result);
@@ -84,7 +86,9 @@ export async function registerPaperTools(modelContext, paper, { signal } = {}) {
             description: "Artboard proportion.",
           },
         },
+        additionalProperties: false,
       },
+      annotations: { readOnlyHint: false, untrustedContentHint: false },
       execute: async (input = {}) => {
         const result = paper.setLayout(input, { source: "agent" });
         return jsonResult(result);
@@ -106,7 +110,9 @@ export async function registerPaperTools(modelContext, paper, { signal } = {}) {
             description: "Optional download name. .png is appended if missing.",
           },
         },
+        additionalProperties: false,
       },
+      annotations: { readOnlyHint: false, untrustedContentHint: false },
       execute: async (input = {}) => {
         return paper.exportPng({
           filename: input.filename,
@@ -126,6 +132,7 @@ export async function registerPaperTools(modelContext, paper, { signal } = {}) {
       inputSchema: {
         type: "object",
         properties: {},
+        additionalProperties: false,
       },
       annotations: { readOnlyHint: true },
       execute: async () => {
